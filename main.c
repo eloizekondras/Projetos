@@ -165,12 +165,36 @@ void editarMusica(Musica musicas[], int numMusicas) {
     }
     printf("Musica não encontrada!\n\n");
 }
+void removerMusica(Musica musicas[], int numMusicas){
+    char nomeMusica[40];
+    int i, encontrei = 0;
+    printf("Insira o nome da música para remover: ");
+    scanf(" %[^\n]s",nomeMusica);
+    for(i=0; i< numMusicas; i++){
+        if(strcmp(nomeMusica, musicas[i].nomeMusica)==0){
+            encontrei = 1;
+        }
+        if(encontrei){
+            if(i<numMusicas-1)
+                musicas[i] = musicas[i+1];
+        }
+    }
+    if(encontrei){
+        printf("Operação realizada com sucesso!\n\n");
+    }else{
+        printf("Filme não encontrado!\n\n;");
+    }
+}
+
 
 int main(){
     Cantor cantores[100];  // Limite de 100 cantores
     int numCantores = 0;
+    Musica musicas[100];
     int opcao;
     int escolhaCantor;
+    int numMusicas = 0;
+
 
     do {
         printf("Digite:\n");
@@ -179,6 +203,8 @@ int main(){
         printf("  Digite 3 para editar cantor\n");
         printf("  Digite 4 para remover cantor\n");
         printf("  Digite 5 para adicionar uma musica a um cantor\n");
+        printf("  Digite 6 para editar uma música\n");
+        printf("  Digite 7 para remover uma música\n");
         printf("  Digite 0 para sair\n");
         scanf(" %d", &opcao);
 
@@ -218,6 +244,14 @@ int main(){
                 } else {
                     printf("Escolha de cantor inválida.\n");
                 }
+                break;
+
+            case 6:
+                editarMusica(musicas, numMusicas);
+                break;
+
+            case 7:
+                removerMusica(musicas, &numMusicas);
                 break;
             case 0:
                 printf("Saindo...\n");
