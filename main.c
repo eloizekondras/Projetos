@@ -37,10 +37,12 @@ Cantor cadastrarCantor() {
     Cantor novoCantor;
     printf("Insira o nome do cantor: ");
     fgets(novoCantor.nome, sizeof(novoCantor.nome), stdin);
+    scanf(" %[^\n]s", novoCantor);
     novoCantor.nome[strcspn(novoCantor.nome, "\n")] = '\0'; // Remover o newline
 
     printf("Insira qual o genero musical: ");
     fgets(novoCantor.generoMusical, sizeof(novoCantor.generoMusical), stdin);
+    scanf(" %[^\n]s", novoCantor.generoMusical);
     novoCantor.generoMusical[strcspn(novoCantor.generoMusical, "\n")] = '\0'; // Remover o newline
 
     printf("Insira a idade do cantor: ");
@@ -139,70 +141,69 @@ void listarMusicasDoCantor(Cantor *cantor) {
     printf("\n");
 }
 
-void editarMusica(Musica musicas[], int numMusicas) {
+void editarMusicaCantor(Cantor *cantor) {
     char nomeMusica[40];
-    int i, opcao;
-
-    printf("Insira o nome da musica a ser editada: ");
+    printf("Insira o nome da música a ser editada: ");
     scanf(" %[^\n]s", nomeMusica);
 
-    for (i = 0; i < numMusicas; i++) {
-        if (strcmp(nomeMusica, musicas[i].nomeMusica) == 0) {
+    for (int i = 0; i < cantor->numMusicas; i++) {
+        Musica *musica = &cantor->musicas[i];
+        if (strcmp(nomeMusica, musica->nomeMusica) == 0) {
             printf("Digite:\n");
-            printf("  Digite 1 para editar o nome da musica\n");
-            printf("  Digite 2 para editar o nome do album\n");
-            printf("  Digite 3 para editar o ano de lançamento da musica\n");
+            printf("  Digite 1 para editar o nome da música\n");
+            printf("  Digite 2 para editar o nome do álbum\n");
+            printf("  Digite 3 para editar o ano de lançamento da música\n");
+            int opcao;
             scanf(" %d", &opcao);
             switch (opcao) {
                 case 1:
-                    printf("Insira o novo nome da musica: ");
-                    scanf(" %[^\n]s", musicas[i].nomeMusica);
+                    printf("Insira o novo nome da música: ");
+                    scanf(" %[^\n]s", musica->nomeMusica);
                     break;
                 case 2:
-                    printf("Insira o novo nome do album: ");
-                    scanf(" %[^\n]s", musicas[i].album);
+                    printf("Insira o novo nome do álbum: ");
+                    scanf(" %[^\n]s", musica->album);
                     break;
                 case 3:
-                    printf("Insira o novo ano de lançamento da musica: ");
-                    scanf(" %d", &musicas[i].anoLancamento);
+                    printf("Insira o novo ano de lançamento da música: ");
+                    scanf(" %d", &musica->anoLancamento);
                     break;
                 default:
-                    printf("Opção invalida!\n\n");
+                    printf("Opção inválida!\n\n");
                     return;
             }
             printf("Operação realizada com sucesso!\n\n");
             return;
         }
     }
-    printf("Musica não encontrada!\n\n");
+    printf("Música não encontrada!\n\n");
 }
 
-void removerMusica(Musica musicas[], int *numMusicas) {
+
+void removerMusicaCantor(Cantor *cantor) {
     char nomeMusica[40];
-    int i, encontrei = 0;
-    printf("Insira o nome da música para remover: ");
+    printf("Insira o nome da música a ser removida: ");
     scanf(" %[^\n]s", nomeMusica);
-    for (i = 0; i < *numMusicas; i++) {
-        if (encontrei) {
-            musicas[i - 1] = musicas[i];
-        }
-        if (strcmp(nomeMusica, musicas[i].nomeMusica) == 0) {
-            encontrei = 1;
-        }
-    }
-    if (encontrei) {
-        (*numMusicas)--;
-        printf("Operação realizada com sucesso!\n\n");
-    } else {
-        printf("Música não encontrada!\n\n");
-    }
-}
 
+    for (int i = 0; i < cantor->numMusicas; i++) {
+        Musica *musica = &cantor->musicas[i];
+        if (strcmp(nomeMusica, musica->nomeMusica) == 0) {
+            for (int j = i; j < cantor->numMusicas - 1; j++) {
+                cantor->musicas[j] = cantor->musicas[j + 1];
+            }
+            cantor->numMusicas--;
+            printf("Música removida com sucesso!\n\n");
+            return;
+        }
+    }
+    printf("Música não encontrada!\n\n");
+}
 int main() {
     Cantor cantores[100]; // Limite de 100 cantores
     int numCantores = 0;
     int opcao;
     int escolhaCantor;
+    int escolhaCantorMusica; // Renomear a variável para evitar conflito
     int numMusicas = 0;
     Musica musicas[100];
 
@@ -257,11 +258,29 @@ int main() {
                 break;
 
             case 6:
-                editarMusica(musicas, numMusicas);
+                listarCantores(cantores, numCantores);
+                printf("Escolha o número de um cantor para editar uma música: ");
+                scanf("%d", &escolhaCantor);
+                escolhaCantor--; // Ajusta para o índice do vetor
+                if (escolhaCantor >= 0 && escolhaCantor < numCantores) {
+                    printf("Cantor selecionado: %s\n", cantores[escolhaCantor].nome);
+                    editarMusicaCantor(&cantores[escolhaCantor]);
+                } else {
+                    printf("Escolha de cantor inválida.\n");
+                }
                 break;
 
             case 7:
-                removerMusica(musicas, &numMusicas);
+                listarCantores(cantores, numCantores);
+                printf("Escolha o número de um cantor para remover uma música: ");
+                scanf("%d", &escolhaCantor);
+                escolhaCantor--; // Ajusta para o índice do vetor
+                if (escolhaCantor >= 0 && escolhaCantor < numCantores) {
+                    printf("Cantor selecionado: %s\n", cantores[escolhaCantor].nome);
+                    removerMusicaCantor(&cantores[escolhaCantor]);
+                } else {
+                    printf("Escolha de cantor inválida.\n");
+                }
                 break;
             case 0:
                 printf("Saindo...\n");
