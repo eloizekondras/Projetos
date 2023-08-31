@@ -19,22 +19,34 @@ typedef struct _cantor {
 Musica cadastrarMusica() {
     Musica novaMusica;
     printf("Insira o nome da musica: ");
-    scanf(" %[^\n]s", novaMusica.nomeMusica);
+    fgets(novaMusica.nomeMusica, sizeof(novaMusica.nomeMusica), stdin);
+    novaMusica.nomeMusica[strcspn(novaMusica.nomeMusica, "\n")] = '\0'; // Remover o newline
+
     printf("Insira o nome do album: ");
-    scanf(" %[^\n]s", novaMusica.album);
+    fgets(novaMusica.album, sizeof(novaMusica.album), stdin);
+    novaMusica.album[strcspn(novaMusica.album, "\n")] = '\0'; // Remover o newline
+
     printf("Insira o ano de lançamento: ");
     scanf(" %d", &novaMusica.anoLancamento);
+    getchar(); // Consume the newline character after scanf
+
     return novaMusica;
 }
 
 Cantor cadastrarCantor() {
     Cantor novoCantor;
     printf("Insira o nome do cantor: ");
-    scanf(" %[^\n]s", novoCantor.nome);
+    fgets(novoCantor.nome, sizeof(novoCantor.nome), stdin);
+    novoCantor.nome[strcspn(novoCantor.nome, "\n")] = '\0'; // Remover o newline
+
     printf("Insira qual o genero musical: ");
-    scanf(" %[^\n]s", novoCantor.generoMusical);
+    fgets(novoCantor.generoMusical, sizeof(novoCantor.generoMusical), stdin);
+    novoCantor.generoMusical[strcspn(novoCantor.generoMusical, "\n")] = '\0'; // Remover o newline
+
     printf("Insira a idade do cantor: ");
     scanf(" %d", &novoCantor.idade);
+    getchar(); // Consume the newline character after scanf
+
     novoCantor.numMusicas = 0;
     printf("\n");
     return novoCantor;
@@ -185,13 +197,14 @@ void removerMusica(Musica musicas[], int *numMusicas) {
         printf("Música não encontrada!\n\n");
     }
 }
+
 int main() {
-    Cantor cantores[100];  // Limite de 100 cantores
+    Cantor cantores[100]; // Limite de 100 cantores
     int numCantores = 0;
-    Musica musicas[100];
     int opcao;
     int escolhaCantor;
     int numMusicas = 0;
+    Musica musicas[100];
 
     do {
         printf("Digite:\n");
