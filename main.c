@@ -2,23 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef  struct _musica Musica;
-
-typedef struct _cantor {
-    char nome[40];
-    char generoMusical[15];
-    int idade;
-    Musica *musicas[100];
-    int numMusicas;
-} Cantor;
-
 typedef struct _musica {
     char nomeMusica[40];
     char album[40];
     int anoLancamento;
 } Musica;
 
-Musica cadastrarMusica(){
+typedef struct _cantor {
+    char nome[40];
+    char generoMusical[15];
+    int idade;
+    Musica musicas[100]; // Armazena as músicas diretamente
+    int numMusicas;
+} Cantor;
+
+Musica cadastrarMusica() {
     Musica novaMusica;
     printf("Insira o nome da musica: ");
     scanf(" %[^\n]s", novaMusica.nomeMusica);
@@ -108,22 +106,23 @@ void removerCantor(Cantor cantores[], int *numCantores) {
         printf("Cantor não encontrado!\n\n");
     }
 }
+
 void inserirMusica(Cantor *cantor) {
     if (cantor->numMusicas < 100) { // Verifica se há espaço para mais músicas
         Musica novaMusica = cadastrarMusica();
-        cantor->musicas[cantor->numMusicas] = malloc(sizeof(Musica));
-        *(cantor->musicas[cantor->numMusicas]) = novaMusica;
+        cantor->musicas[cantor->numMusicas] = novaMusica;
         cantor->numMusicas++;
         printf("Música inserida com sucesso!\n\n");
     } else {
         printf("O cantor já possui o limite máximo de músicas!\n\n");
     }
 }
+
 void listarMusicasDoCantor(Cantor *cantor) {
     printf("Músicas de %s:\n", cantor->nome);
     for (int i = 0; i < cantor->numMusicas; i++) {
-        Musica *musica = cantor->musicas[i];
-        printf("%d - %s - %s\n", i + 1, musica->nomeMusica, musica->album);
+        Musica musica = cantor->musicas[i];
+        printf("%d - %s - %s\n", i + 1, musica.nomeMusica, musica.album);
     }
     printf("\n");
 }
@@ -165,36 +164,34 @@ void editarMusica(Musica musicas[], int numMusicas) {
     }
     printf("Musica não encontrada!\n\n");
 }
-void removerMusica(Musica musicas[], int numMusicas){
+
+void removerMusica(Musica musicas[], int *numMusicas) {
     char nomeMusica[40];
     int i, encontrei = 0;
     printf("Insira o nome da música para remover: ");
-    scanf(" %[^\n]s",nomeMusica);
-    for(i=0; i< numMusicas; i++){
-        if(strcmp(nomeMusica, musicas[i].nomeMusica)==0){
+    scanf(" %[^\n]s", nomeMusica);
+    for (i = 0; i < *numMusicas; i++) {
+        if (encontrei) {
+            musicas[i - 1] = musicas[i];
+        }
+        if (strcmp(nomeMusica, musicas[i].nomeMusica) == 0) {
             encontrei = 1;
         }
-        if(encontrei){
-            if(i<numMusicas-1)
-                musicas[i] = musicas[i+1];
-        }
     }
-    if(encontrei){
+    if (encontrei) {
+        (*numMusicas)--;
         printf("Operação realizada com sucesso!\n\n");
-    }else{
-        printf("Filme não encontrado!\n\n;");
+    } else {
+        printf("Música não encontrada!\n\n");
     }
 }
-
-
-int main(){
+int main() {
     Cantor cantores[100];  // Limite de 100 cantores
     int numCantores = 0;
     Musica musicas[100];
     int opcao;
     int escolhaCantor;
     int numMusicas = 0;
-
 
     do {
         printf("Digite:\n");
