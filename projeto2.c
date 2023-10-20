@@ -5,6 +5,7 @@
 // Definição das estruturas
 typedef struct Musica {
     char titulo[100];
+    char cantor[100];
     int duracao;
     struct Musica* proxima;
 } Musica;
@@ -28,6 +29,8 @@ Musica* cadastrarMusica() {
 
     printf("Insira o título da música: ");
     scanf(" %[^\n]", novaMusica->titulo);
+    printf("Insira o nome do cantor: ");
+    scanf(" %[^\n]", novaMusica->cantor);
     printf("Insira duração da música (em segundos): ");
     scanf("%d", &(novaMusica->duracao));
     novaMusica->proxima = NULL;
@@ -38,6 +41,8 @@ Musica* cadastrarMusica() {
 void editarMusica(Musica* musica) {
     printf("Insira o novo título da música: ");
     scanf(" %[^\n]", musica->titulo);
+    printf("Insira o  novo nome do cantor: ");
+    scanf(" %[^\n]", musica->cantor);
     printf("Insira a nova duração da música (em segundos): ");
     scanf("%d", &(musica->duracao));
 }
@@ -46,7 +51,7 @@ void editarMusica(Musica* musica) {
 void listarMusicas(Musica* listaMusicas) {
     Musica* atual = listaMusicas;
     while (atual != NULL) {
-        printf("Título: %s, Duração: %d segundos\n", atual->titulo, atual->duracao);
+        printf("Título: %s, Cantor: %s, Duração: %d segundos\n", atual->titulo, atual->cantor, atual->duracao);
         atual = atual->proxima;
     }
 }
@@ -102,7 +107,6 @@ void removerMusicaDePlaylist(Playlist* playlist, char* tituloMusica) {
             } else {
                 anterior->proxima = atual->proxima;
             }
-            free(atual);
             playlist->numMusicas--;
             return;
         }
@@ -112,6 +116,7 @@ void removerMusicaDePlaylist(Playlist* playlist, char* tituloMusica) {
 
     printf("Música \"%s\" não encontrada na playlist.\n", tituloMusica);
 }
+
 
 // Função principal
 int main() {
