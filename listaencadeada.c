@@ -188,26 +188,7 @@ int main() {
                 }
                 break;
             case 2:
-                if (listaMusicas == NULL) {
-                    printf("Musica nao cadastrada.\n");
-                } else {
-                    char tituloMusica[100];
-                    printf("Digite o novo titulo da musica: ");
-                    scanf(" %[^\n]", tituloMusica);
-
-                    Musica* atual = listaMusicas;
-                    while (atual != NULL) {
-                        if (strcmp(atual->titulo, tituloMusica) == 0) {
-                            editarMusica(atual);
-                            break;
-                        }
-                        atual = atual->proxima;
-                    }
-
-                    if (atual == NULL) {
-                        printf("Musica \"%s\" nao encontrada.\n", tituloMusica);
-                    }
-                }
+                editarMusica(listaMusicas);
                 break;
             case 3:
                 if (listaMusicas == NULL) {
