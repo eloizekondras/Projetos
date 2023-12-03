@@ -170,7 +170,6 @@ int main() {
         printf("4. Cadastrar nova playlist\n");
         printf("5. Remover uma playlist\n");
         printf("6. Lista das playlist cadastradas\n");
-        printf("7. Editar a playlist\n");
         printf("8. Adicionar musica a playlist\n");
         printf("9. Remover musica da playlist\n");
         printf("10. Sair do programa\n");
@@ -243,28 +242,6 @@ int main() {
                 }
                 break;
             case 7:
-                if (listaPlaylists == NULL) {
-                    printf("Nenhuma playlist cadastrada.\n");
-                } else {
-                    char nomePlaylist[100];
-                    printf("Digite o nome da playlist que deseja editar: ");
-                    scanf(" %[^\n]", nomePlaylist);
-
-                    Playlist* atual = listaPlaylists;
-                    while (atual != NULL) {
-                        if (strcmp(atual->nome, nomePlaylist) == 0) {
-                            editarPlaylist(atual);
-                            break;
-                        }
-                        atual = atual->proxima;
-                    }
-
-                    if (atual == NULL) {
-                        printf("Playlist \"%s\" nao encontrada.\n", nomePlaylist);
-                    }
-                }
-                break;
-            case 8:
                 if (listaPlaylists == NULL || listaMusicas == NULL) {
                     printf("Nenhuma playlist ou música cadastrada.\n");
                 } else {
@@ -304,7 +281,7 @@ int main() {
                     }
                 }
                 break;
-            case 9:
+            case 8:
                 if (listaPlaylists == NULL) {
                     printf("Playlist nao cadastrada.\n");
                 } else {
@@ -330,13 +307,13 @@ int main() {
                     }
                 }
                 break;
-            case 10:
+            case 9:
             
                 break;
             default:
                 printf("Opcao invalida, tente novamente.\n");
         }
-    } while (escolha != 10);
+    } while (escolha != 9);
 
     
     Musica* atualMusica = listaMusicas;
