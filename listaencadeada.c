@@ -163,17 +163,19 @@ int main() {
 
     int escolha;
     do {
-        printf("\nEscolha uma opcao:\n");
-        printf("1. Cadastrar uma musica\n");
-        printf("2. Editar uma musica\n");
-        printf("3. Lista das musicas cadastradas\n");
-        printf("4. Cadastrar nova playlist\n");
-        printf("5. Remover uma playlist\n");
-        printf("6. Lista das playlist cadastradas\n");
-        printf("8. Adicionar musica a playlist\n");
-        printf("9. Remover musica da playlist\n");
-        printf("10. Sair do programa\n");
-        printf("Opcao: ");
+    printf("\nEscolha uma opcao:\n");
+    printf("1. Cadastrar uma musica\n");
+    printf("2. Editar uma musica\n");
+    printf("3. Lista das musicas cadastradas\n");
+    printf("4. Cadastrar nova playlist\n");
+    printf("5. Remover uma playlist\n");
+    printf("6. Lista das playlist cadastradas\n");
+    printf("7. Adicionar musica a playlist\n");
+    printf("8. Remover musica da playlist\n");
+    printf("9. Sair do programa\n");
+    printf("Opcao: ");
+
+
         scanf("%d", &escolha);
 
         switch (escolha) {
@@ -308,7 +310,7 @@ int main() {
                 }
                 break;
             case 9:
-            
+            printf("Saindo do programa. Obrigado!\n");
                 break;
             default:
                 printf("Opcao invalida, tente novamente.\n");
