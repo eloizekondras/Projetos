@@ -150,13 +150,6 @@ void removerMusicaDePlaylist(Playlist* playlist, char* tituloMusica) {
     printf("Musica \"%s\" nao encontrada na playlist.\n", tituloMusica);
 }
 
-// Function to edit a playlist, including the option to change attributes
-void editarPlaylist(Playlist* playlist) {
-    printf("Digite o novo nome da playlist: ");
-    scanf(" %[^\n]", playlist->nome);
-}
-
-// Main Function
 int main() {
     Musica* listaMusicas = NULL;
     Playlist* listaPlaylists = NULL;
